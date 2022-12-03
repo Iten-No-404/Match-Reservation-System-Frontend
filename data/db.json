@@ -1,0 +1,103 @@
+{
+    "user": [
+        {
+            "uid": 123456789,
+            "username": "Iten",
+            "firstname": "Iten",
+            "lastname": "Emad ElDin",
+            "birthdate": "10-04-2000",
+            "gender": 0,
+            "nationality": "Egyptian",
+            "email": "iten_emad@yahoo.com",
+            "role": "Fan",
+            "approved": true,
+            "admin": false
+        }
+    ],
+    "match": [
+        {
+            "mid": 43,
+            "tid1": 19,
+            "tid2": 20,
+            "sid": 4,
+            "startdate": "01-12-2022",
+            "starttime": "21:00",
+            "endtime": "23:00",
+            "mainreferee": "Idk",
+            "lineman1": "Man1",
+            "lineman2": "Man2",
+            "round": 32
+        },
+        {
+            "mid": 51,
+            "tid1": 19,
+            "tid2": 22,
+            "sid": 3,
+            "startdate": "05-12-2022",
+            "starttime": "17:00",
+            "endtime": "19:00",
+            "mainreferee": "Idk",
+            "lineman1": "Man1",
+            "lineman2": "Man2",
+            "round": 16
+        },
+        {
+            "mid": 55,
+            "tid1": 23,
+            "tid2": 20,
+            "sid": 5,
+            "startdate": "06-12-2022",
+            "starttime": "17:00",
+            "endtime": "19:00",
+            "mainreferee": "Idk",
+            "lineman1": "Man1",
+            "lineman2": "Man2",
+            "round": 16
+        }
+    ],
+    "stadium": [
+        {
+            "sid": 3,
+            "name": "Al Janoub Stadium",
+            "location": "Al Wakrah, 22km east of central Doha",
+            "shape": 10,
+            "noofseats": 20
+        },
+        {
+            "sid": 4,
+            "name": "Khalifa International Stadium",
+            "location": "Aspire, 5km west of central Doha",
+            "shape": 8,
+            "noofseats": 15
+        },
+        {
+            "sid": 5,
+            "name": "Education City Stadium",
+            "location": "Education City in Al Rayyan, 7km north-west of central Doha",
+            "shape": 7,
+            "noofseats": 12
+        }
+    ],
+    "team": [
+        {
+            "tid": 19,
+            "name": "Japan",
+            "group": "E"
+        },
+        {
+            "tid": 20,
+            "name": "Spain",
+            "group": "E"
+        },
+        {
+            "tid": 22,
+            "name": "Croatia",
+            "group": "F"
+        },
+        {
+            "tid": 23,
+            "name": "Morocco",
+            "group": "F"
+        }
+    ]
+}
