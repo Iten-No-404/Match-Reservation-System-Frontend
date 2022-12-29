@@ -34,10 +34,10 @@ const AddStadium = () => {
                 <input type="text" required value={stadium_name} onChange={(e) => setStadiumName(e.target.value)}/>
                 <label>Number of seats</label>
                 <input type="number" required value={seatNum} onChange={(e) => setSeatNum(e.target.value)}/>
+                <label>Shape</label>
+                <input type="number" required value={shape} onChange={(e) => setShape(e.target.value)}/>
                 <label>Address</label>
                 <input type="text" required value={address} onChange={(e) => setAddress(e.target.value)}/>
-                <label>Shape</label>
-                <input type="text" required value={shape} onChange={(e) => setShape(e.target.value)}/>
                 <label>Location</label>
                 <input type="text" required value={location} onChange={(e) => setLocation(e.target.value)}/>
                 <button type='submit'>Add Stadium</button>
@@ -45,5 +45,5 @@ const AddStadium = () => {
         </div> 
     );
 }
- 
+
 export default AddStadium;
