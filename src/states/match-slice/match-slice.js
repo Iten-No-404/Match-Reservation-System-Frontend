@@ -261,6 +261,6 @@ const headers = {
 
 export const selectMatch = (state) => state.match.match;
 export const selectAllMatches = (state) => state.match.allMatches;
-export const selectStatus = (state) => state.match.status;
-export const selectStatusMessage = (state) => state.match.statusMessage;
+export const selectMatchStatus = (state) => state.match.status;
+export const selectMatchStatusMessage = (state) => state.match.statusMessage;
 export default match.reducer;

@@ -5,11 +5,11 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-  export const addStadium = createAsyncThunk(
-    'addStadium',
+  export const addTickets = createAsyncThunk(
+    'addTickets',
     async ({query, token}) =>{
         try{
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/add_staduim`, query, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/add_tickets`, query, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
@@ -23,11 +23,11 @@ const headers = {
     }
   );
 
-  export const getStadiums = createAsyncThunk(
-    'getStadiums',
-    async ({token}) =>{
+  export const deleteTicket = createAsyncThunk(
+    'deleteTicket',
+    async ({ id, token}) =>{
         try{
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/get_staduims_info`, {
+            const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/delete_ticket/${id}`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
@@ -41,11 +41,11 @@ const headers = {
     }
   );
 
-  export const getStadium = createAsyncThunk(
-    'getStadiums',
-    async ({token, id}) =>{
+  export const getTickets = createAsyncThunk(
+    'getTickets',
+    async ({ id, token}) =>{
         try{
-            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/get_staduim_info/${id}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/get_tickets`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
@@ -59,87 +59,88 @@ const headers = {
     }
   );
 
-  const stadium = createSlice({
-    name: 'stadium',
+  const ticket = createSlice({
+    name: 'ticket',
     initialState: {
-        stadium: {
-            staduim_name: "",
-            n_seats: 0,
-            address: "",
-            shape: 0,
-            location: ""
-          },
-        stadiums: [],
+        ticket: {
+            match_id: 0,
+            price: 0.0,
+            // n_tickets: 0,
+            row: 0,
+            seat: 0,
+            level: 0
+        },
+        tickets: [],
         status: 'idle',
         statusMessage: ''
     },
     reducers: {
       extraReducers: {
-        [addStadium.pending]: (state) => {
-          console.log('Add Stadium in Progress');
+        [addTickets.pending]: (state) => {
+          console.log('Add Tickets in Progress');
           const s = state; 
           s.status = 'pending';
         },
-        [addStadium.fulfilled]: (state, { payload }) => {
+        [addTickets.fulfilled]: (state, { payload }) => {
           const s = state; 
           try {
-            s.stadium = payload.response;
+            // s.ticket = payload.response;
             s.status = 'fulfilled';
           } catch (e) {
             s.status = 'failed';
             s.statusMessage = payload.status;
-          }
+           }
         },
-        [addStadium.rejected]: (state) => {
-          console.log('Add new stadium Failed!!!!');
+        [addTickets.rejected]: (state) => {
+          console.log('Add Tickets Failed!!!!');
           const s = state; 
           s.status = 'rejected';
         },
-        [getStadiums.pending]: (state) => {
-          console.log('Get Stadiums in Progress');
+        [deleteTicket.pending]: (state) => {
+          console.log('Delete Ticket in Progress');
           const s = state; 
           s.status = 'pending';
         },
-        [getStadiums.fulfilled]: (state, { payload }) => {
+        [deleteTicket.fulfilled]: (state, { payload }) => {
           const s = state; 
           try {
-            s.stadiums = payload.response.stadiums;
+            // s.ticket = payload.response;
             s.status = 'fulfilled';
           } catch (e) {
             s.status = 'failed';
             s.statusMessage = payload.status;
-          }
+           }
         },
-        [getStadiums.rejected]: (state) => {
-          console.log('Get Stadiums Failed!!!!');
+        [deleteTicket.rejected]: (state) => {
+          console.log('Delete Ticket Failed!!!!');
           const s = state; 
           s.status = 'rejected';
         },
-        [getStadium.pending]: (state) => {
-          console.log('Get Stadiums in Progress');
+        [getTickets.pending]: (state) => {
+          console.log('Get Tickets in Progress');
           const s = state; 
           s.status = 'pending';
         },
-        [getStadium.fulfilled]: (state, { payload }) => {
+        [getTickets.fulfilled]: (state, { payload }) => {
           const s = state; 
           try {
-            s.stadium = payload.response;
+            s.tickets = payload.response.tickets;
             s.status = 'fulfilled';
           } catch (e) {
             s.status = 'failed';
             s.statusMessage = payload.status;
-          }
+           }
         },
-        [getStadium.rejected]: (state) => {
-          console.log('Get Stadiums Failed!!!!');
+        [getTickets.rejected]: (state) => {
+          console.log('Get Tickets Failed!!!!');
           const s = state; 
           s.status = 'rejected';
         }
     }}
 })
 
-export const selectStadium = (state) => state.stadium.stadium;
-export const selectStadiums = (state) => state.stadium.stadiums;
-export const selectStadiumStatus = (state) => state.stadium.status;
-export const selectStadiumStatusMessage = (state) => state.stadium.statusMessage;
-export default stadium.reducer;
+export const selectTicket = (state) => state.ticket.ticket;
+export const selectTickets = (state) => state.ticket.tickets;
+export const selectTicketStatus = (state) => state.ticket.status;
+export const selectTicketStatusMessage = (state) => state.ticket.statusMessage;
+export default ticket.reducer;

@@ -2,59 +2,130 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios';
 
 const headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
 };
 
   export const logInThunk = createAsyncThunk(
     'login',
-    async ({query, token}) =>{
+    async (query) =>{
         try{
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/login`, query, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/login`, query, {
                 headers: {
-                  Authorization: 'Bearer ' + token,
                   ...headers
                 }
               });
-            return response;
+            return response.data;
         }catch (err){
             console.log(err);
             return undefined;
         }
     }
   );
-
+  
   export const signUpThunk = createAsyncThunk(
     'signUp',
-    async ({query, token}) =>{
+    async (query) =>{
         try{
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/signup`, query, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/signup`, query, {
                 headers: {
-                  Authorization: 'Bearer ' + token,
                   ...headers
                 }
               });
-            return response;
-        }catch (err){
-            console.log(err);
-            return undefined;
-        }
+              return response.data;
+            }catch (err){
+              console.log(err);
+              return undefined;
+            }
     }
   );
 
   export const updateUserThunk = createAsyncThunk(
     'updateUser',
     async ({query, token}) =>{
-        try{
-            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/update`, query, {
+      try{
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/update`, query, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
                 }
               });
-            return response;
+            return response.data;
         }catch (err){
-            console.log(err);
-            return undefined;
+          console.log(err);
+          return undefined;
+        }
+    }
+  );
+
+  export const logOutThunk = createAsyncThunk(
+    'logOut',
+    async ({token}) =>{
+      try{
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/Logout_user`, {
+                headers: {
+                  Authorization: 'Bearer ' + token,
+                  ...headers
+                }
+              });
+            return response.data;
+        }catch (err){
+          console.log(err);
+          return undefined;
+        }
+    }
+  );
+
+  export const approveUserThunk = createAsyncThunk(
+    'approveUser',
+    async ({query, token}) =>{
+      try{
+        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/approve_user`, query, {
+                headers: {
+                  Authorization: 'Bearer ' + token,
+                  ...headers
+                }
+              });
+            return response.data;
+        }catch (err){
+          console.log(err);
+          return undefined;
+        }
+    }
+  );
+
+  export const deleteUserThunk = createAsyncThunk(
+    'deleteUser',
+    async ({query, token}) =>{
+      try{
+        const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/delete_user`, query, {
+                headers: {
+                  Authorization: 'Bearer ' + token,
+                  ...headers
+                }
+              });
+            return response.data;
+        }catch (err){
+          console.log(err);
+          return undefined;
+        }
+    }
+  );
+
+  export const getUsersThunk = createAsyncThunk(
+    'getUsers',
+    async ({token}) =>{
+      try{
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/all_users_admin`, {
+                headers: {
+                  Authorization: 'Bearer ' + token,
+                  ...headers
+                }
+              });
+            return response.data;
+        }catch (err){
+          console.log(err);
+          return undefined;
         }
     }
   );
@@ -77,6 +148,7 @@ const headers = {
             approved: false,
             admin: false,
         },
+        users: [],
         status: 'idle',
         statusMessage: ''
     },
@@ -113,6 +185,33 @@ const headers = {
             }
         },
         /**
+        * This function sets the email of the User in the User State
+        * @method
+        * @param {object} state The object that stores the User's email, password, age and other info
+        * @param {object} action The object containing the User's email to be added to the state
+        */
+        setEmail: (state, action) => {
+          state.user.email = action.payload;
+        },
+        /**
+        * This function sets the password of the User in the User State
+        * @method
+        * @param {object} state The object that stores the User's email, password, age and other info
+        * @param {object} action The object containing the User's password to be added to the state
+        */
+        setPassword: (state, action) => {
+          state.user.password = action.payload;
+        },
+        /**
+        * This function sets the Primary BlogName of the User in the User State
+        * @method
+        * @param {object} state The object that stores the User's email, password, age and other info
+        * @param {object} action The object containing the User's UserName to be added to the state
+        */
+        setUsername: (state, action) => {
+          state.user.username = action.payload;
+        },
+        /**
          * This function empties the user data.
          * @method
          * @param {object} state The object that stores the current user data.
@@ -136,7 +235,23 @@ const headers = {
             s.authToken = '';
             localStorage.clear();
             window.location.replace('/');
-        }
+        },
+        /**
+        * This function resets the status message state
+        * @method
+        * @param {object} state The object that stores the current Status Message
+        */
+        setStatusMessage: (state) => {
+          state.statusMessage = '';
+        },
+        /**
+        * This function resets the status state
+        * @method
+        * @param {object} state The object that stores the current Status number
+        */
+        setStatus: (state) => {
+          state.status = null;
+        },
       },
       extraReducers: {
         [logInThunk.pending]: (state) => {
@@ -144,23 +259,23 @@ const headers = {
           const s = state; 
           s.status = 'pending';
         },
-        [logInThunk.fulfilled]: (state, { payload }) => {
+        [logInThunk.fulfilled]: (state, {payload} ) => {
           const s = state; 
           try {
-            // const resJSON = JSON.parse(payload);
-            const resJSON = payload.data;
-            s.authToken = resJSON.token;
-            s.uuid = resJSON.uuid;
+            s.user = payload.response; 
+            console.log(payload);
+            s.authToken = payload.response.access_token;
             localStorage.setItem('authToken', s.authToken);
-            localStorage.setItem('uuid', s.uuid);
             s.status = 'fulfilled';
           } catch (e) {
+            console.log("WRONG !!!!!!!!!!");
+            // console.log(payload);
             s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
+            s.statusMessage = payload.meta.statusText;
+          }
         },
         [logInThunk.rejected]: (state) => {
-          console.log('Login in Failed!!!!');
+          console.log('Login Failed!!!!');
           const s = state; 
           s.status = 'rejected';
         },
@@ -172,32 +287,86 @@ const headers = {
         [signUpThunk.fulfilled]: (state, { payload }) => {
           const s = state;
           try {
-            // const resJSON = JSON.parse(payload);
-            const resJSON = payload.data;
-            s.authToken = resJSON.token;
-            s.uuid = resJSON.uuid;
+            s.authToken = payload.response.token;
+            s.uuid = payload.response.uuid;
             localStorage.setItem('authToken', s.authToken);
-            localStorage.setItem('uuid', s.uuid);
             s.status = 'fulfilled';
-
           } catch (e) {
             s.status = 'failed';
             s.statusMessage = payload;
            }
         },
         [signUpThunk.rejected]: (state) => {
-          console.log('SignUp in Failed!!!!');
+          console.log('SignUp Failed!!!!');
           const s = state; 
           s.status = 'rejected';
         },
         [updateUserThunk.pending]: () => {
-          console.log('UpdateUser in Progress');
+          console.log('Update User in Progress');
         },
         [updateUserThunk.fulfilled]: (state, { payload }) => {
-          state.user = payload.data;
+          console.log(payload);
+          state.user = payload.response;
         },
         [updateUserThunk.rejected]: () => {
-          console.log('UpdateUser in Failed!!!!');
+          console.log('Update User Failed!!!!');
+        },
+        [logOutThunk.pending]: () => {
+          console.log('LogOut in Progress');
+        },
+        [logOutThunk.fulfilled]: (state, { payload }) => {
+          // console.log(payload);
+          state.authToken =  "";
+          state.users = [];
+          state.status = 'idle';
+          state.statusMessage = '';
+          state.user = {
+            uid: null,
+            username: "",
+            password: "",
+            firstName: "",
+            lastName: "",
+            birthDate: "0000-00-00",
+            gender: false,
+            nationality: "",
+            email: "",
+            role:"",
+            approved: false,
+            admin: false,
+          };
+        },
+        [logOutThunk.rejected]: () => {
+          console.log('LogOut Failed!!!!');
+        },
+        [approveUserThunk.pending]: () => {
+          console.log('Approve User in Progress');
+        },
+        [approveUserThunk.fulfilled]: (state, { payload }) => {
+          console.log(payload);
+          // state.user = payload.response;
+        },
+        [approveUserThunk.rejected]: () => {
+          console.log('Approve User Failed!!!!');
+        },
+        [deleteUserThunk.pending]: () => {
+          console.log('Delete User in Progress');
+        },
+        [deleteUserThunk.fulfilled]: (state, { payload }) => {
+          console.log(payload);
+          // state.user = payload.response;
+        },
+        [deleteUserThunk.rejected]: () => {
+          console.log('Delete User Failed!!!!');
+        },
+        [getUsersThunk.pending]: () => {
+          console.log('Get Users in Progress');
+        },
+        [getUsersThunk.fulfilled]: (state, { payload }) => {
+          // console.log(payload);
+          state.users = payload.response.users;
+        },
+        [getUsersThunk.rejected]: () => {
+          console.log('Get Users Failed!!!!');
         }
         },
 })
@@ -206,5 +375,5 @@ export const selectUser = (state) => state.user.user;
 export const selectUserAuthToken = (state) => state.user.authToken;
 export const selectUserStatus = (state) => state.user.status;
 export const selectUserStatusMessage = (state) => state.user.statusMessage;
-export const { setUser, logOut } = user.actions;
+export const { setUser, setEmail, setPassword, setUsername, logOut, setStatusMessage, setStatus } = user.actions;
 export default user.reducer;
