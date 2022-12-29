@@ -1,0 +1,38 @@
+/* colors = {
+  'deep-pink': '#E923F4',
+  'purple': '#72076E',
+  'violet': '#2B0245',
+  'ultramarine': '#250096',
+  'light-purple': '#5600F4'
+} */
+
+.add-match {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .add-match label {
+    text-align: left;
+    display: block;
+  }
+  .add-match h2 {
+    font-size: 20px;
+    color: #250096;
+    margin-bottom: 30px;
+  }
+  .add-match input, .add-match textarea, .add-match select {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: block;
+  }
+  .add-match button {
+    background: #5600F4;
+    color: #fff;
+    border: 0;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }

@@ -1,0 +1,40 @@
+/* colors = {
+  'deep-pink': '#E923F4',
+  'purple': '#72076E',
+  'violet': '#2B0245',
+  'ultramarine': '#250096',
+  'light-purple': '#5600F4'
+} */
+
+.tickets {
+  background-color: #2B0245;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.tickets h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.card {
+    background-color: #9156ff;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.card-title{
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.card-text{
+    color: black;
+}
+
