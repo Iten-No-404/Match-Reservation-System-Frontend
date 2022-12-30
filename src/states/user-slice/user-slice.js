@@ -15,7 +15,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -32,7 +32,7 @@ const headers = {
                   ...headers
                 }
               });
-              return response.data;
+              return response.data.response;
             }catch (err){
               console.log(err);
               return undefined;
@@ -50,7 +50,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
           console.log(err);
           return undefined;
@@ -68,7 +68,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
           console.log(err);
           return undefined;
@@ -86,7 +86,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
           console.log(err);
           return undefined;
@@ -104,7 +104,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
           console.log(err);
           return undefined;
@@ -122,7 +122,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
           console.log(err);
           return undefined;
@@ -261,11 +261,12 @@ const headers = {
         },
         [logInThunk.fulfilled]: (state, {payload} ) => {
           const s = state; 
+          // console.log(payload);
           try {
-            s.user = payload.response; 
+            s.user = payload; 
             console.log(payload);
-            s.authToken = payload.response.access_token;
-            localStorage.setItem('authToken', s.authToken);
+            s.authToken = payload.access_token;
+            localStorage.setItem('authToken', s.access_token);
             s.status = 'fulfilled';
           } catch (e) {
             console.log("WRONG !!!!!!!!!!");
@@ -287,8 +288,8 @@ const headers = {
         [signUpThunk.fulfilled]: (state, { payload }) => {
           const s = state;
           try {
-            s.authToken = payload.response.token;
-            s.uuid = payload.response.uuid;
+            s.authToken = payload.token;
+            s.uuid = payload.uuid;
             localStorage.setItem('authToken', s.authToken);
             s.status = 'fulfilled';
           } catch (e) {
@@ -306,7 +307,7 @@ const headers = {
         },
         [updateUserThunk.fulfilled]: (state, { payload }) => {
           console.log(payload);
-          state.user = payload.response;
+          state.user = payload;
         },
         [updateUserThunk.rejected]: () => {
           console.log('Update User Failed!!!!');
@@ -344,7 +345,7 @@ const headers = {
         },
         [approveUserThunk.fulfilled]: (state, { payload }) => {
           console.log(payload);
-          // state.user = payload.response;
+          // state.user = payload;
         },
         [approveUserThunk.rejected]: () => {
           console.log('Approve User Failed!!!!');
@@ -354,7 +355,7 @@ const headers = {
         },
         [deleteUserThunk.fulfilled]: (state, { payload }) => {
           console.log(payload);
-          // state.user = payload.response;
+          // state.user = payload;
         },
         [deleteUserThunk.rejected]: () => {
           console.log('Delete User Failed!!!!');
@@ -364,7 +365,7 @@ const headers = {
         },
         [getUsersThunk.fulfilled]: (state, { payload }) => {
           // console.log(payload);
-          state.users = payload.response.users;
+          state.users = payload.users;
         },
         [getUsersThunk.rejected]: () => {
           console.log('Get Users Failed!!!!');

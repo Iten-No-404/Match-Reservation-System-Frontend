@@ -15,7 +15,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -33,7 +33,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -51,7 +51,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -74,68 +74,69 @@ const headers = {
         statusMessage: ''
     },
     reducers: {
-      extraReducers: {
-        [addStadium.pending]: (state) => {
-          console.log('Add Stadium in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [addStadium.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.stadium = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-          }
-        },
-        [addStadium.rejected]: (state) => {
-          console.log('Add new stadium Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getStadiums.pending]: (state) => {
-          console.log('Get Stadiums in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getStadiums.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.stadiums = payload.response.stadiums;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-          }
-        },
-        [getStadiums.rejected]: (state) => {
-          console.log('Get Stadiums Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getStadium.pending]: (state) => {
-          console.log('Get Stadiums in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getStadium.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.stadium = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-          }
-        },
-        [getStadium.rejected]: (state) => {
-          console.log('Get Stadiums Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        }
-    }}
+},
+extraReducers: {
+  [addStadium.pending]: (state) => {
+    console.log('Add Stadium in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [addStadium.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      s.stadium = payload.response;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+    }
+  },
+  [addStadium.rejected]: (state) => {
+    console.log('Add new stadium Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  },
+  [getStadiums.pending]: (state) => {
+    console.log('Get Stadiums in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [getStadiums.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      s.stadiums = payload.response.stadiums;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+    }
+  },
+  [getStadiums.rejected]: (state) => {
+    console.log('Get Stadiums Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  },
+  [getStadium.pending]: (state) => {
+    console.log('Get Stadiums in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [getStadium.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      s.stadium = payload.response;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+    }
+  },
+  [getStadium.rejected]: (state) => {
+    console.log('Get Stadiums Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  }
+}
 })
 
 export const selectStadium = (state) => state.stadium.stadium;

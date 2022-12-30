@@ -15,7 +15,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -33,7 +33,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -50,7 +50,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -68,7 +68,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -86,7 +86,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -104,7 +104,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -135,128 +135,130 @@ const headers = {
         statusMessage: ''
     },
     reducers: {
-      extraReducers: {
-        [addMatch.pending]: (state) => {
-          console.log('Add Match in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [addMatch.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.match = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [addMatch.rejected]: (state) => {
-          console.log('Add Match Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [editMatch.pending]: (state) => {
-          console.log('Edit Match in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [editMatch.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.match = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [editMatch.rejected]: (state) => {
-          console.log('Edit Match Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getMatches.pending]: (state) => {
-          console.log('Get Matches in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getMatches.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.allMatches = payload.response.matches;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [getMatches.rejected]: (state) => {
-          console.log('Get Matches Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getMatchesWithTickets.pending]: (state) => {
-          console.log('Get Matches with Tickets in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getMatchesWithTickets.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.allMatches = payload.response.matches;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [getMatchesWithTickets.rejected]: (state) => {
-          console.log('Get Matches with Tickets Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getMatchWithTickets.pending]: (state) => {
-          console.log('Get Match with Tickets in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getMatchWithTickets.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.match = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [getMatchWithTickets.rejected]: (state) => {
-          console.log('Get Match with Tickets Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getMatchWithTicketsForFan.pending]: (state) => {
-          console.log('Get Match with Tickets For Fan in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getMatchWithTicketsForFan.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.match = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [getMatchWithTicketsForFan.rejected]: (state) => {
-          console.log('Get Match with Tickets For Fan Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
+
+    },
+    extraReducers: {
+      [addMatch.pending]: (state) => {
+        console.log('Add Match in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [addMatch.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.match = payload;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
+         }
+      },
+      [addMatch.rejected]: (state) => {
+        console.log('Add Match Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      },
+      [editMatch.pending]: (state) => {
+        console.log('Edit Match in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [editMatch.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.match = payload;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
+         }
+      },
+      [editMatch.rejected]: (state) => {
+        console.log('Edit Match Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      },
+      [getMatches.pending]: (state) => {
+        console.log('Get Matches in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [getMatches.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.allMatches = payload.matches;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
         }
-    }}
+      },
+      [getMatches.rejected]: (state) => {
+        console.log('Get Matches Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      },
+      [getMatchesWithTickets.pending]: (state) => {
+        console.log('Get Matches with Tickets in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [getMatchesWithTickets.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.allMatches = payload.matches;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
+        }
+      },
+      [getMatchesWithTickets.rejected]: (state) => {
+        console.log('Get Matches with Tickets Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      },
+      [getMatchWithTickets.pending]: (state) => {
+        console.log('Get Match with Tickets in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [getMatchWithTickets.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.match = payload;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
+        }
+      },
+      [getMatchWithTickets.rejected]: (state) => {
+        console.log('Get Match with Tickets Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      },
+      [getMatchWithTicketsForFan.pending]: (state) => {
+        console.log('Get Match with Tickets For Fan in Progress');
+        const s = state; 
+        s.status = 'pending';
+      },
+      [getMatchWithTicketsForFan.fulfilled]: (state, { payload }) => {
+        const s = state; 
+        try {
+          s.match = payload;
+          s.status = 'fulfilled';
+        } catch (e) {
+          s.status = 'failed';
+          s.statusMessage = payload.status;
+         }
+      },
+      [getMatchWithTicketsForFan.rejected]: (state) => {
+        console.log('Get Match with Tickets For Fan Failed!!!!');
+        const s = state; 
+        s.status = 'rejected';
+      }
+  }
 })
 
 export const selectMatch = (state) => state.match.match;

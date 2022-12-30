@@ -29,7 +29,7 @@ function Navigationbar() {
                 </Link>
                 <Container className="justify-content-end">
                         <h2 className="justify-content-end">
-                            { user.approved === true ? (
+                            { user.approved === 1 ? (
                             <Container className="justify-content-end" style={{ textAlign: 'right' }}>
                             <OverlayTrigger
                                 placement='bottom'
@@ -46,7 +46,7 @@ function Navigationbar() {
                                     Welcome, {user.username}!
                                 </span>
                             </OverlayTrigger>
-                            {user.admin ? (
+                            {user.admin === 1 ? (
                                 <>
                                 <OverlayTrigger
                                     placement="left"
@@ -59,13 +59,12 @@ function Navigationbar() {
                                 size="large"
                                 fontFamily="Arial"
                                 style={{ display: "inline-block",
-                                  backgroundColor: "#E923F4",
-                                  color: '#FFFFFF',
-                                  fontWeight: 'bold',
-                                  textTransform: 'none',
-                                  marginRight: "15px"
+                                        backgroundColor: "#E923F4",
+                                        color: '#FFFFFF',
+                                        fontWeight: 'bold',
+                                        textTransform: 'none',
+                                        marginRight: "15px"
                                 }}
-                                // onClick={() => dispatch(logOutThunk({token: user.access_token}))}
                             >
                                 Manage Users
                             </Button>
@@ -129,7 +128,7 @@ function Navigationbar() {
                                         placement="left"
                                         overlay={<Tooltip>Add a new match or edit an existing one.</Tooltip>}
                                     >
-                                        <Link to='/manage_matches'>
+                                        <Link to='/addMatch'>
                                         <Button
                                             disableRipple
                                             variant="contained"
@@ -151,7 +150,7 @@ function Navigationbar() {
                                         placement="left"
                                         overlay={<Tooltip>Add a new stadium</Tooltip>}
                                     >
-                                        <Link to='/add_stadium'>
+                                        <Link to='/addStadium'>
                                         <Button
                                             disableRipple
                                             variant="contained"

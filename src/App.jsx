@@ -14,10 +14,16 @@ function App() {
   return (
     <Router>
     <div className="App">
-      <Navigationbar admin={false} role={''}/>
+      <Navigationbar/>
         <Routes>
             <Route path="/" element={<HomePage />} />
+            {/* <Route path="/login" element={<LoginPage />} /> */}
+            {/* <Route path="/register" element={<SignUpPage />} /> */}
+            {/* <Route path="/edit_account" element={<EditAccountPage />} /> */}
+            {/* <Route path="/match/:id" element={<MatchPage />} /> */}
+            {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
             <Route path="/tickets" element={<Tickets />} />
+            {/* <Route path="/manage_users" element={<ManageUsersPage />} /> */}
             <Route path="/addMatch" element={<AddMatch />} />
             <Route path='/addStadium' element={<AddStadium />} />
         </Routes>

@@ -15,7 +15,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -33,7 +33,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -51,7 +51,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data;
+            return response.data.response;
         }catch (err){
             console.log(err);
             return undefined;
@@ -75,68 +75,69 @@ const headers = {
         statusMessage: ''
     },
     reducers: {
-      extraReducers: {
-        [addTickets.pending]: (state) => {
-          console.log('Add Tickets in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [addTickets.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            // s.ticket = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [addTickets.rejected]: (state) => {
-          console.log('Add Tickets Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [deleteTicket.pending]: (state) => {
-          console.log('Delete Ticket in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [deleteTicket.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            // s.ticket = payload.response;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [deleteTicket.rejected]: (state) => {
-          console.log('Delete Ticket Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        },
-        [getTickets.pending]: (state) => {
-          console.log('Get Tickets in Progress');
-          const s = state; 
-          s.status = 'pending';
-        },
-        [getTickets.fulfilled]: (state, { payload }) => {
-          const s = state; 
-          try {
-            s.tickets = payload.response.tickets;
-            s.status = 'fulfilled';
-          } catch (e) {
-            s.status = 'failed';
-            s.statusMessage = payload.status;
-           }
-        },
-        [getTickets.rejected]: (state) => {
-          console.log('Get Tickets Failed!!!!');
-          const s = state; 
-          s.status = 'rejected';
-        }
-    }}
+},
+extraReducers: {
+  [addTickets.pending]: (state) => {
+    console.log('Add Tickets in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [addTickets.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      // s.ticket = payload.response;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+     }
+  },
+  [addTickets.rejected]: (state) => {
+    console.log('Add Tickets Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  },
+  [deleteTicket.pending]: (state) => {
+    console.log('Delete Ticket in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [deleteTicket.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      // s.ticket = payload.response;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+     }
+  },
+  [deleteTicket.rejected]: (state) => {
+    console.log('Delete Ticket Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  },
+  [getTickets.pending]: (state) => {
+    console.log('Get Tickets in Progress');
+    const s = state; 
+    s.status = 'pending';
+  },
+  [getTickets.fulfilled]: (state, { payload }) => {
+    const s = state; 
+    try {
+      s.tickets = payload.response.tickets;
+      s.status = 'fulfilled';
+    } catch (e) {
+      s.status = 'failed';
+      s.statusMessage = payload.status;
+     }
+  },
+  [getTickets.rejected]: (state) => {
+    console.log('Get Tickets Failed!!!!');
+    const s = state; 
+    s.status = 'rejected';
+  }
+}
 })
 
 export const selectTicket = (state) => state.ticket.ticket;
