@@ -15,10 +15,10 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
             console.log(err);
-            return undefined;
+            return err.response.data;
         }
     }
   );
@@ -35,7 +35,7 @@ const headers = {
               return response.data.response;
             }catch (err){
               console.log(err);
-              return undefined;
+              return err.response.data;
             }
     }
   );
@@ -53,7 +53,7 @@ const headers = {
             return response.data.response;
         }catch (err){
           console.log(err);
-          return undefined;
+          return err.response.data;
         }
     }
   );
@@ -68,10 +68,10 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
           console.log(err);
-          return undefined;
+          return err.response.data;
         }
     }
   );
@@ -89,7 +89,7 @@ const headers = {
             return response.data.response;
         }catch (err){
           console.log(err);
-          return undefined;
+          return err.response.data;
         }
     }
   );
@@ -107,7 +107,7 @@ const headers = {
             return response.data.response;
         }catch (err){
           console.log(err);
-          return undefined;
+          return err.response.data;
         }
     }
   );
@@ -125,7 +125,7 @@ const headers = {
             return response.data.response;
         }catch (err){
           console.log(err);
-          return undefined;
+          return err.response.data;
         }
     }
   );
@@ -141,12 +141,12 @@ const headers = {
             firstName: "",
             lastName: "",
             birthDate: "0000-00-00",
-            gender: false,
+            gender: 0,
             nationality: "",
             email: "",
             role:"",
-            approved: false,
-            admin: false
+            approved: 0,
+            admin: 0
         },
         users: [],
         status: 'idle',
@@ -263,16 +263,22 @@ const headers = {
           const s = state; 
           // console.log(payload);
           try {
-            s.user = payload; 
-            console.log(payload);
-            s.authToken = payload.access_token;
-            localStorage.setItem('authToken', s.access_token);
-            s.status = 'fulfilled';
+            if(payload.meta.status === "200"){
+              s.user = payload.response; 
+              // console.log(payload);
+              s.authToken = payload.response.access_token;
+              localStorage.setItem('user', JSON.stringify(s.user));
+              localStorage.setItem('authToken', s.authToken);
+              s.status = 'fulfilled';
+            } else {
+              s.status = 'failed';
+              s.statusMessage = payload.meta.msg;
+            }
           } catch (e) {
             console.log("WRONG !!!!!!!!!!");
-            // console.log(payload);
+            console.log(payload);
             s.status = 'failed';
-            s.statusMessage = payload.meta.statusText;
+            s.statusMessage = payload.meta.msg;
           }
         },
         [logInThunk.rejected]: (state) => {
@@ -288,13 +294,20 @@ const headers = {
         [signUpThunk.fulfilled]: (state, { payload }) => {
           const s = state;
           try {
-            s.authToken = payload.token;
-            s.uuid = payload.uuid;
-            localStorage.setItem('authToken', s.authToken);
-            s.status = 'fulfilled';
+            if(payload.meta.status === "200"){
+              s.user = payload.response; 
+              // console.log(payload);
+              s.authToken = payload.response.access_token;
+              localStorage.setItem('user', JSON.stringify(s.user));
+              localStorage.setItem('authToken', s.authToken);
+              s.status = 'fulfilled';
+            } else {
+              s.status = 'failed';
+              s.statusMessage = payload.meta.msg;
+            }
           } catch (e) {
             s.status = 'failed';
-            s.statusMessage = payload;
+            s.statusMessage = payload.meta.msg;
            }
         },
         [signUpThunk.rejected]: (state) => {
@@ -335,6 +348,7 @@ const headers = {
             approved: false,
             admin: false,
           };
+          localStorage.clear();
           window.location = '/';
         },
         [logOutThunk.rejected]: () => {

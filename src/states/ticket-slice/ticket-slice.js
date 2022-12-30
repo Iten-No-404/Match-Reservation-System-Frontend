@@ -18,7 +18,7 @@ const headers = {
             return response.data.response;
         }catch (err){
             console.log(err);
-            return undefined;
+            return err.response.data;
         }
     }
   );
@@ -36,7 +36,7 @@ const headers = {
             return response.data.response;
         }catch (err){
             console.log(err);
-            return undefined;
+            return err.response.data;
         }
     }
   );
@@ -54,7 +54,7 @@ const headers = {
             return response.data.response;
         }catch (err){
             console.log(err);
-            return undefined;
+            return err.response.data;
         }
     }
   );

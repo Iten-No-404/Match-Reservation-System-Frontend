@@ -7,6 +7,7 @@ import HomePage from './pages/homepage/HomePage';
 import Tickets from './pages/tickets/Tickets';
 import AddMatch from './pages/addMatch/AddMatch';
 import AddStadium from './pages/addStadium/AddStadium';
+import LoginPage from './pages/loginpage/LogInPage';
 
 function App() {
   // const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function App() {
       <Navigationbar/>
         <Routes>
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/login" element={<LoginPage />} /> */}
+            <Route path="/login" element={<LoginPage />} />
             {/* <Route path="/register" element={<SignUpPage />} /> */}
             {/* <Route path="/edit_account" element={<EditAccountPage />} /> */}
             {/* <Route path="/match/:id" element={<MatchPage />} /> */}
