@@ -9,6 +9,8 @@ import AddMatch from './pages/addMatch/AddMatch';
 import AddStadium from './pages/addStadium/AddStadium';
 import LoginPage from './pages/loginpage/LogInPage';
 import SignUpPage from './pages/signuppage/SignUpPage';
+import ManageUsersPage from './pages/manageuserspage/ManageUsersPage';
+
 
 function App() {
   // const dispatch = useDispatch();
@@ -25,7 +27,7 @@ function App() {
             {/* <Route path="/match/:id" element={<MatchPage />} /> */}
             {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
             <Route path="/tickets" element={<Tickets />} />
-            {/* <Route path="/manage_users" element={<ManageUsersPage />} /> */}
+            <Route path="/manage_users" element={<ManageUsersPage />} />
             <Route path="/addMatch" element={<AddMatch />} />
             <Route path='/addStadium' element={<AddStadium />} />
         </Routes>

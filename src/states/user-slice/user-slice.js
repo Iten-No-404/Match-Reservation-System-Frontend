@@ -98,13 +98,17 @@ const headers = {
     'deleteUser',
     async ({query, token}) =>{
       try{
-        const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/delete_user`, query, {
+        console.log(query);
+        console.log(token);
+        const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/delete_user`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
-                }
+                },
+                data: query
               });
-            return response.data;
+            console.log(response);
+            return response;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -116,6 +120,7 @@ const headers = {
     'getUsers',
     async ({token}) =>{
       try{
+        // console.log(token);
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/all_users_admin`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
@@ -142,6 +147,7 @@ const headers = {
             lastName: "",
             birthDate: "0000-00-00",
             gender: 0,
+            access_token: "",
             nationality: "",
             email: "",
             role:"",
@@ -380,8 +386,8 @@ const headers = {
           console.log('Get Users in Progress');
         },
         [getUsersThunk.fulfilled]: (state, { payload }) => {
-          // console.log(payload);
-          state.users = payload.users;
+          console.log(payload);
+          state.users = payload.response.users;
         },
         [getUsersThunk.rejected]: () => {
           console.log('Get Users Failed!!!!');
@@ -390,7 +396,8 @@ const headers = {
 })
 
 export const selectUser = (state) => state.user.user;
-export const selectUserAuthToken = (state) => state.user.authToken;
+export const selectAllUsers = (state) => state.user.users;
+export const selectUserAuthToken = (state) => state.user.user.access_token;
 export const selectUserStatus = (state) => state.user.status;
 export const selectUserStatusMessage = (state) => state.user.statusMessage;
 export const { setUser, setEmail, setPassword, setUsername, logOut, setStatusMessage, setStatus } = user.actions;
