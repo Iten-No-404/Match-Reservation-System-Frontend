@@ -80,13 +80,16 @@ const headers = {
     'approveUser',
     async ({query, token}) =>{
       try{
-        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/approve_user`, query, {
+        console.log(query);
+        console.log(token);
+        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/approve_user`,query, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
-                }
+                }//,
+                // data: query
               });
-            return response.data;
+            return response;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -107,7 +110,6 @@ const headers = {
                 },
                 data: query
               });
-            console.log(response);
             return response;
         }catch (err){
           console.log(err);
@@ -367,6 +369,7 @@ const headers = {
         },
         [approveUserThunk.fulfilled]: (state, { payload }) => {
           console.log(payload);
+          // state.users = payload.response.users;
           // state.user = payload;
         },
         [approveUserThunk.rejected]: () => {

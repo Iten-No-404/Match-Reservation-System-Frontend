@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { GlobalStyles } from '@mui/material';
-import Button from '@material-ui/core/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircle';
@@ -11,7 +13,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { setUser, selectAllUsers, selectUserAuthToken, getUsersThunk, deleteUserThunk } from '../../states/user-slice/user-slice';
+import { setUser, selectAllUsers, selectUserAuthToken, getUsersThunk, deleteUserThunk, approveUserThunk } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
 
@@ -21,7 +23,7 @@ function ManageUsersPage() {
     const users = useSelector(selectAllUsers);
     const [loadedUsers, setLoadedUsers] = useState(false);
     const [deletedAUser, setDeletedAUser] = useState(false);
-    const [unapprovedOnly, setUnapprovedOnly] = useState(false);
+    const [unapprovedOnly, setUnapprovedOnly] = useState(true);
     useEffect(() => {
         const loggedInUser = localStorage.getItem('user');
         if (loggedInUser) {
@@ -53,8 +55,13 @@ function ManageUsersPage() {
             }}
           />
           <Container style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'column', margin: 20 }}>
+          <Box style={{ padding: 5, margin: 5, backgroundColor: "#E923F4", borderRadius: 5}}>
+            <FormGroup>
+              <FormControlLabel control={<Switch value={unapprovedOnly} onChange={(e) => { setUnapprovedOnly(e.target.checked); }} defaultChecked />} label="Show Unapproved Only!" />
+            </FormGroup>
+          </Box>
           { users.map((user, index) => {
-            if (user.admin === 1)
+            if (user.admin === 1 || (unapprovedOnly && user.approved === 1))
                 return (<Box />)
             return (<Container key={user.id} style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', textAlign: "left" }}>
             <Box key={user.id} style={{ display: "flex",flexDirection: 'row', backgroundColor: "#9156ff", width: "90%", padding: 20, borderRadius: 5, marginTop: 20, marginRight: 10, color: "white" }}>
@@ -83,8 +90,12 @@ function ManageUsersPage() {
                 <DeleteIcon style={{ color: "#FF0000", cursor: "pointer"}} 
                 onClick={ (e) => { e.preventDefault(); 
                 dispatch(deleteUserThunk({query: {username: user.username}, token: authToken})); setDeletedAUser(true); users.splice(index) }}/>
-                { user.approved === 1 && (
-                    <CheckCircleOutlinedIcon />
+                { user.approved === 1 ? (
+                    <CheckCircleOutlinedIcon  style={{ color: "#00FF00"}} />
+                ) : (
+                  <CheckIcon  style={{ color: "#0000FF", cursor: "pointer"}} 
+                  onClick={ (e) => { e.preventDefault(); 
+                  dispatch(approveUserThunk({query: {username: user.username}, token: authToken})); setDeletedAUser(true);}}/>
                 ) }
             </Box>
             </Container>)
