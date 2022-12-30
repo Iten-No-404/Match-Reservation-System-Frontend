@@ -32,7 +32,7 @@ const headers = {
                   ...headers
                 }
               });
-              return response.data.response;
+              return response.data;
             }catch (err){
               console.log(err);
               return err.response.data;
@@ -50,7 +50,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -86,7 +86,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -104,7 +104,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -122,7 +122,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
           console.log(err);
           return err.response.data;
@@ -270,6 +270,7 @@ const headers = {
               localStorage.setItem('user', JSON.stringify(s.user));
               localStorage.setItem('authToken', s.authToken);
               s.status = 'fulfilled';
+              s.statusMessage = '';
             } else {
               s.status = 'failed';
               s.statusMessage = payload.meta.msg;
@@ -294,21 +295,22 @@ const headers = {
         [signUpThunk.fulfilled]: (state, { payload }) => {
           const s = state;
           try {
+            console.log(payload);
             if(payload.meta.status === "200"){
               s.user = payload.response; 
-              // console.log(payload);
               s.authToken = payload.response.access_token;
-              localStorage.setItem('user', JSON.stringify(s.user));
-              localStorage.setItem('authToken', s.authToken);
+              // localStorage.setItem('user', JSON.stringify(s.user));
+              // localStorage.setItem('authToken', s.authToken);
               s.status = 'fulfilled';
+              s.statusMessage = '';
             } else {
               s.status = 'failed';
               s.statusMessage = payload.meta.msg;
             }
           } catch (e) {
             s.status = 'failed';
-            s.statusMessage = payload.meta.msg;
-           }
+            // s.statusMessage = payload.meta.msg;
+          }
         },
         [signUpThunk.rejected]: (state) => {
           console.log('SignUp Failed!!!!');

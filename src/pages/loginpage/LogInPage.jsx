@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { GlobalStyles } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +12,7 @@ import LogInButton from '../../components/Buttons/LogInButton/LogInButton';
 import EmailInputTextField from '../../components/Fields/EmailInputTextField/EmailInputTextField';
 import PasswordInputTextField from '../../components/Fields/PasswordInputTextField/PasswordInputTextField';
 import {
-  selectUser, selectUserStatusMessage, logInThunk, setUserStatusMessage, setUser
+  selectUser, selectUserStatusMessage, logInThunk, setUser
 } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
@@ -31,7 +31,7 @@ const LogInPage = () => {
         dispatch(setUser(loggedInUser));
         window.location = '/';
     }
-}, [])
+}, [dispatch])
   if (user.approved === 1) {
     window.location = '/';
   }
@@ -62,7 +62,7 @@ const LogInPage = () => {
                 }));
               }}
           >
-            <Typography sx={{m: 2}} component="h1" color="white" fontSize="2rem" font='"Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;'>
+            <Typography sx={{m: 1}} component="h1" color="white" fontSize="2rem" font='"Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;'>
               {text1}
             </Typography>
             { message === '' ? (<Box />)

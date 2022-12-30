@@ -33,7 +33,7 @@ const SignUpButton = ({ handleClick, worksAsLink, again }) => (
         size="large"
         font="'Favorit', 'Helvetica Neue', 'HelveticaNeue', Helvetica, Arial, sans-serif;"
         style={{
-          backgroundColor: '#00b8ff', color: '#FFFFFF', fontWeight: 'bold', textTransform: 'none',
+          backgroundColor: '#E923F4', color: '#FFFFFF', fontWeight: 'bold', textTransform: 'none',
         }}
         sx={{
           spacing: 8

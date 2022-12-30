@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { GlobalStyles } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { selectAllMatches, getMatches } from '../../states/match-slice/match-slice';
-import { selectUser, logInThunk, setUser } from '../../states/user-slice/user-slice';
+import { setUser } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
 
