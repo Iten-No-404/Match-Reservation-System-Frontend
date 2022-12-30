@@ -1,4 +1,5 @@
 
+
 function HomePage() {
     return (
         <div>Welcome to the HomePage!
@@ -7,4 +8,3 @@ function HomePage() {
     );
 }
 export default HomePage;
-    

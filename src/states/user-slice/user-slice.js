@@ -146,7 +146,7 @@ const headers = {
             email: "",
             role:"",
             approved: false,
-            admin: false,
+            admin: false
         },
         users: [],
         status: 'idle',
@@ -334,6 +334,7 @@ const headers = {
             approved: false,
             admin: false,
           };
+          window.location = '/';
         },
         [logOutThunk.rejected]: () => {
           console.log('LogOut Failed!!!!');

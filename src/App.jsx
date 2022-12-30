@@ -2,6 +2,7 @@ import './App.css';
 // import { useState, useEffect } from "react";
 // import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navigationbar from './components/navbar/navbar'; 
 import HomePage from './pages/homepage/HomePage';
 import Tickets from './pages/tickets/Tickets';
 import AddMatch from './pages/addMatch/AddMatch';
@@ -13,6 +14,7 @@ function App() {
   return (
     <Router>
     <div className="App">
+      <Navigationbar admin={false} role={''}/>
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/tickets" element={<Tickets />} />
