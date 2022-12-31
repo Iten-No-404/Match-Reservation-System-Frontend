@@ -45,7 +45,6 @@ const EditAccountPage = () => {
   const [birthdate, setBirthDate] = useState(user.brithdate);
   const countryCodes = Object.keys(countries.countries);
   const countryNames = countryCodes.map(code => countries.countries[code].name);
-  console.log(countryNames[1]);
   
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
