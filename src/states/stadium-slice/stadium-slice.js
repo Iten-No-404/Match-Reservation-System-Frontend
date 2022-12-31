@@ -42,7 +42,7 @@ const headers = {
   );
 
   export const getStadium = createAsyncThunk(
-    'getStadiums',
+    'getStadium',
     async ({token, id}) =>{
         try{
             const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/get_staduim_info/${id}`, {
@@ -105,7 +105,7 @@ extraReducers: {
   [getStadiums.fulfilled]: (state, { payload }) => {
     const s = state; 
     try {
-      s.stadiums = payload.response.stadiums;
+      s.stadiums = payload.staduims;
       s.status = 'fulfilled';
     } catch (e) {
       s.status = 'failed';

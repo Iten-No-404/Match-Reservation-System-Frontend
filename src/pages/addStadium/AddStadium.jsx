@@ -1,7 +1,6 @@
 import "./AddStadium.css";
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { GlobalStyles } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -35,9 +34,9 @@ const AddStadium = () => {
     const message = useSelector(selectStadiumStatusMessage);
     useEffect(() => {
         const loggedInUser = localStorage.getItem('user');
-        const authToken = localStorage.getItem('authToken');
-        if(authToken) {
-            dispatch(setAuthToken(authToken))
+        const authToken2 = localStorage.getItem('authToken');
+        if(authToken2) {
+            dispatch(setAuthToken(authToken2))
         }
         if (loggedInUser) {
             dispatch(setUser(loggedInUser));
@@ -79,6 +78,32 @@ const AddStadium = () => {
             <Box style={{ backgroundColor: "#5600F4", padding: 20, margin: 20, borderRadius: 5 }}>
                 <div className="add-stadium">
                     <h2>Add a new Stadium</h2>
+            { message === '' ? (<Box />)
+                : (
+                    <Box
+                    sx={{
+                        borderRadius: 1,
+                        marginBottom: 1.5,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        color: '#FFFFFF',
+                        padding: '14px 15px',
+                        backgroundColor: '#00000040',
+                        textAlign: 'center',
+                        fontSize: '0.875rem',
+                        font: '"Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;',
+                    }}
+                    >
+                    <Typography
+                        component="h2"
+                        fontSize="0.875rem"
+                        font='"Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;'
+                    >
+                        {message}
+                    </Typography>
+                    </Box>
+                )}
                     <form onSubmit={handleSubmit}>
                         <label>Name</label>
                         <input type="text" required value={stadium_name} onChange={(e) => setStadiumName(e.target.value)}/>
