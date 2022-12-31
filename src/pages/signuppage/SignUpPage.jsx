@@ -21,7 +21,7 @@ import SignUpButton from '../../components/Buttons/SignUpButton/SignUpButton';
 import EmailInputTextField from '../../components/Fields/EmailInputTextField/EmailInputTextField';
 import PasswordInputTextField from '../../components/Fields/PasswordInputTextField/PasswordInputTextField';
 import {
-  selectUser, selectUserStatus, selectUserStatusMessage, signUpThunk, setUser
+  selectUser, selectUserStatus, selectUserStatusMessage, signUpThunk, setUser, setAuthToken
 } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
@@ -49,14 +49,15 @@ const SignUpPage = () => {
   const [step, setStep] = useState(1);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
+    const authToken = localStorage.getItem('authToken');
+    if(authToken) {
+        dispatch(setAuthToken(authToken))
+    }
     if (loggedInUser) {
         dispatch(setUser(loggedInUser));
         // window.location = '/';
     }
 }, [])
-  // if (user.approved === 1) {
-  //   window.location = '/';
-  // }
   return (
     <ThemeProvider theme={theme}>
     <Container

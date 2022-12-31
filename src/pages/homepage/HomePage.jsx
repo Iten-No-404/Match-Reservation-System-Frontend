@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { selectAllMatches, getMatches } from '../../states/match-slice/match-slice';
-import { setUser } from '../../states/user-slice/user-slice';
+import { setUser, setAuthToken } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
 
@@ -22,6 +22,10 @@ function HomePage() {
         }
         setLoadedMatches(true);
         const loggedInUser = localStorage.getItem('user');
+        const authToken = localStorage.getItem('authToken');
+        if(authToken) {
+            dispatch(setAuthToken(authToken))
+        }
         if (loggedInUser) {
             dispatch(setUser(loggedInUser));
         }

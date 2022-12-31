@@ -12,7 +12,7 @@ import LogInButton from '../../components/Buttons/LogInButton/LogInButton';
 import EmailInputTextField from '../../components/Fields/EmailInputTextField/EmailInputTextField';
 import PasswordInputTextField from '../../components/Fields/PasswordInputTextField/PasswordInputTextField';
 import {
-  selectUser, selectUserStatusMessage, logInThunk, setUser
+  selectUser, selectUserStatusMessage, logInThunk, setUser, setAuthToken
 } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
@@ -27,6 +27,10 @@ const LogInPage = () => {
   const message = useSelector(selectUserStatusMessage);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
+    const authToken = localStorage.getItem('authToken');
+    if(authToken) {
+        dispatch(setAuthToken(authToken))
+    }
     if (loggedInUser) {
         dispatch(setUser(loggedInUser));
         window.location = '/';

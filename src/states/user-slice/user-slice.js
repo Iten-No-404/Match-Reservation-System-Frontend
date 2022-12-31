@@ -44,7 +44,7 @@ const headers = {
     'updateUser',
     async ({query, token}) =>{
       try{
-        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/update`, query, {
+        const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/change_user_info`, query, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
@@ -80,14 +80,11 @@ const headers = {
     'approveUser',
     async ({query, token}) =>{
       try{
-        console.log(query);
-        console.log(token);
         const response = await axios.put(`${process.env.REACT_APP_BASE_URL}/approve_user`,query, {
                 headers: {
                   Authorization: 'Bearer ' + token,
                   ...headers
-                }//,
-                // data: query
+                }
               });
             return response;
         }catch (err){
@@ -101,8 +98,6 @@ const headers = {
     'deleteUser',
     async ({query, token}) =>{
       try{
-        console.log(query);
-        console.log(token);
         const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/delete_user`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
@@ -122,7 +117,6 @@ const headers = {
     'getUsers',
     async ({token}) =>{
       try{
-        // console.log(token);
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/all_users_admin`, {
                 headers: {
                   Authorization: 'Bearer ' + token,
@@ -172,8 +166,10 @@ const headers = {
             if (loggedInUser) {
               const foundUser = JSON.parse(loggedInUser);
               s.user = foundUser;
+              s.authToken = s.user.access_token;
               localStorage.clear();
               localStorage.setItem('user', JSON.stringify(state.user));
+              localStorage.setItem('authToken', s.user.access_token);
             }
             else {
               s.user = {
@@ -211,13 +207,22 @@ const headers = {
           state.user.password = action.payload;
         },
         /**
-        * This function sets the Primary BlogName of the User in the User State
+        * This function sets the Username of the User in the User State
         * @method
         * @param {object} state The object that stores the User's email, password, age and other info
         * @param {object} action The object containing the User's UserName to be added to the state
         */
         setUsername: (state, action) => {
           state.user.username = action.payload;
+        },
+        /**
+        * This function sets the authentication token of the User in the User State
+        * @method
+        * @param {object} state The object that stores the User's auth token
+        * @param {object} action The object containing the User's UserName to be added to the state
+        */
+        setAuthToken: (state, action) => {
+          state.user.authToken = action.payload;
         },
         /**
          * This function empties the user data.
@@ -329,8 +334,23 @@ const headers = {
           console.log('Update User in Progress');
         },
         [updateUserThunk.fulfilled]: (state, { payload }) => {
-          console.log(payload);
-          state.user = payload;
+          const s = state;
+          try {
+            // console.log(payload);
+            if(payload.meta.status === "200"){
+              s.user = payload.response; 
+              s.user.access_token = s.authToken;
+              localStorage.setItem('user', JSON.stringify(s.user));
+              s.status = 'fulfilled';
+              s.statusMessage = '';
+            } else {
+              s.status = 'failed';
+              s.statusMessage = payload.meta.msg;
+            }
+          } catch (e) {
+            s.status = 'failed';
+            // s.statusMessage = payload.meta.msg;
+          }
         },
         [updateUserThunk.rejected]: () => {
           console.log('Update User Failed!!!!');
@@ -403,5 +423,5 @@ export const selectAllUsers = (state) => state.user.users;
 export const selectUserAuthToken = (state) => state.user.user.access_token;
 export const selectUserStatus = (state) => state.user.status;
 export const selectUserStatusMessage = (state) => state.user.statusMessage;
-export const { setUser, setEmail, setPassword, setUsername, logOut, setStatusMessage, setStatus } = user.actions;
+export const { setUser, setEmail, setPassword, setUsername, logOut, setStatusMessage, setStatus, setAuthToken } = user.actions;
 export default user.reducer;

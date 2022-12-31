@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { GlobalStyles } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,7 +12,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { setUser, selectAllUsers, selectUserAuthToken, getUsersThunk, deleteUserThunk, approveUserThunk } from '../../states/user-slice/user-slice';
+import { setUser, selectAllUsers, selectUserAuthToken, getUsersThunk, deleteUserThunk, approveUserThunk, setAuthToken } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
 
@@ -26,6 +25,10 @@ function ManageUsersPage() {
     const [unapprovedOnly, setUnapprovedOnly] = useState(true);
     useEffect(() => {
         const loggedInUser = localStorage.getItem('user');
+        const oldAuthToken = localStorage.getItem('authToken');
+        if(oldAuthToken) {
+            dispatch(setAuthToken(oldAuthToken))
+        }
         if (loggedInUser) {
             dispatch(setUser(loggedInUser));
         }
