@@ -40,9 +40,6 @@ function AddMatch() {
     const authToken = useSelector(selectUserAuthToken);
     const stadiums = useSelector(selectStadiums);
     const stadiumNames = stadiums.map(stadium => stadium.staduim_name);
-    console.log(stadiums);
-    console.log(stadiumNames);
-    const [gotStadiumNames, setGotStadiumNames] = useState(false);
 
     const [team1, setTeam1] = useState("");
     const [team2, setTeam2] = useState("");
@@ -60,6 +57,8 @@ function AddMatch() {
 
     const status = useSelector(selectMatchStatus);
     const message = useSelector(selectMatchStatusMessage);
+    console.log(status);
+    console.log(message);
     useEffect(() => {
       const loggedInUser = localStorage.getItem('user');
       const authToken2 = localStorage.getItem('authToken');
@@ -78,14 +77,6 @@ function AddMatch() {
         dispatch(getStadiums({token: authToken}));
       
     }, [authToken])
-
-    // useEffect(() => {
-    //   if( !gotStadiumNames){
-    //     stadiumNames = stadiums.map(stadium => stadium.staduim_name);
-    //     console.log(stadiumNames);
-    //     setGotStadiumNames(true);
-    //   }
-    // }, [stadiums])
     
 
     const handleSubmit = (e) => {

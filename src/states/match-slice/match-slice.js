@@ -15,7 +15,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
             console.log(err);
             return err.response.data;
@@ -145,13 +145,19 @@ const headers = {
       },
       [addMatch.fulfilled]: (state, { payload }) => {
         const s = state; 
+        console.log(payload);
         try {
-          s.match = payload;
-          s.status = 'fulfilled';
+          if(payload.meta.status === "200"){
+            s.match = payload.response;
+            s.status = 'fulfilled';
+          } else {
+            s.status = 'failed';
+            s.statusMessage = payload.meta.msg;
+          }
         } catch (e) {
           s.status = 'failed';
-          s.statusMessage = payload.status;
-         }
+          s.statusMessage = payload.meta.msg;
+        }
       },
       [addMatch.rejected]: (state) => {
         console.log('Add Match Failed!!!!');
