@@ -11,6 +11,7 @@ import LoginPage from './pages/loginpage/LogInPage';
 import SignUpPage from './pages/signuppage/SignUpPage';
 import ManageUsersPage from './pages/manageuserspage/ManageUsersPage';
 import EditAccountPage from './pages/editaccountpage/EditAccountPage';
+import MatchPage from './pages/matchpage/MatchPage';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<SignUpPage />} />
             <Route path="/edit_account" element={<EditAccountPage />} />
-            {/* <Route path="/match/:id" element={<MatchPage />} /> */}
+            <Route path="/match/:id" element={<MatchPage />} />
             {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/manage_users" element={<ManageUsersPage />} />

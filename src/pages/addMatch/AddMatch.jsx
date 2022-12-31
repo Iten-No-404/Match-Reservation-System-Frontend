@@ -44,7 +44,6 @@ function AddMatch() {
     const stadiums = useSelector(selectStadiums);
     const matches = useSelector(selectAllMatches);
     const matchNames = matches?.map(match => [match.startdate + " " + match.team1 + " vs. "+ match.team2, match.match_id]);
-    // const matchKeys = matches?.map(match => match.match_id);
     const matchDict = Object.assign({}, ...matches?.map((match) => ({[match.match_id]: match})));
     const stadiumNames = stadiums?.map(stadium => stadium.staduim_name);
 
