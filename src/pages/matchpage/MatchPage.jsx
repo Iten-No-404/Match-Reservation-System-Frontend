@@ -13,7 +13,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { selectAllMatches, getMatches, getMatchWithTickets, getMatchWithTicketsForFan } from '../../states/match-slice/match-slice';
+import { getStadium, selectStadium } from '../../states/stadium-slice/stadium-slice';
+import { selectAllMatches, getMatches, getMatchWithTickets, getMatchWithTicketsForFan, selectMatch } from '../../states/match-slice/match-slice';
 import { setUser, selectUser, selectUserAuthToken, getUsersThunk, deleteUserThunk, approveUserThunk, setAuthToken } from '../../states/user-slice/user-slice';
 
 const theme = createTheme();
@@ -24,6 +25,8 @@ function MatchPage() {
     const matches = useSelector(selectAllMatches);
     const matchDict = Object.assign({}, ...matches?.map((match) => ({[match.match_id]: match})));
     const match = matchDict?.[id];
+    const stadium = useSelector(selectStadium);
+    console.log(stadium);
     const user = useSelector(selectUser);
     const [loadedMatches, setLoadedMatches] = useState(false);
     useEffect(() => {
@@ -40,6 +43,11 @@ function MatchPage() {
             dispatch(setUser(loggedInUser));
         }
     }, []);
+
+    // useEffect(() => {
+    //     if(user.access_token !== "")
+    //         dispatch(getStadium({token: user.access_token, id: id}));
+    // }, [stadium]);
 
     return (
       <ThemeProvider theme={theme}>
@@ -83,7 +91,7 @@ function MatchPage() {
             </Box>
             { user.approved === 1 && user.role === "fan" && (
                 <Box key={match.match_id} style={{ backgroundColor: "#9156ff", padding: 20, borderRadius: 5, marginTop: 10, marginRight: 10, color: "white" }}>
-                    
+
                 </Box>
             )}
           </Container>
