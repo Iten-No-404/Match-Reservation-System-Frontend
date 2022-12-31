@@ -1,95 +1,113 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 // import axios from 'axios';
 import './Tickets.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserAuthToken, setAuthToken, setUser } from '../../states/user-slice/user-slice';
+import { deleteTicket, getTickets, selectTickets, selectTicketStatus, selectTicketStatusMessage } from '../../states/ticket-slice/ticket-slice';
+import { getMatches, selectAllMatches, selectMatchStatus, selectMatchStatusMessage } from '../../states/match-slice/match-slice';
 
-const Tickets = () => {
+// const Tickets = () => {
+function Tickets() {
   // dummy list of tickets
-  const tickets = [
-  {
-    id: 1,
-    price: 100,
-    row: 1,
-    seat: 1,
-    level: 1,
-    seat_id: 1,
-    match_id: 1
-  },
-  {
-    id: 2,
-    price: 100,
-    row: 1,
-    seat: 2,
-    level: 1,
-    seat_id: 2,
-    match_id: 2
-  }]
+  // const tickets = [
+  // {
+  //   id: 1,
+  //   price: 100,
+  //   row: 1,
+  //   seat: 1,
+  //   level: 1,
+  //   seat_id: 1,
+  //   match_id: 1
+  // },
+  // {
+  //   id: 2,
+  //   price: 100,
+  //   row: 1,
+  //   seat: 2,
+  //   level: 1,
+  //   seat_id: 2,
+  //   match_id: 2
+  // }]
 
-  // dummy list of matches
-  const matches = [
-    {
-      "tid1": 1,
-      "tid2": 2,
-      "lineman2": "Alessandro Giallatini",
-      "lineman1": "Ciro Carbone",
-      "mainreferee": "Daniele Orsato",
-      "startdate": "2022-12-20",
-      "starttime": "19:00:00",
-      "endtime": "21:00:00",
-      "round": 32,
-      "staduim_name": "Al Bayt Stadium",
-      "team1": "Qatar",
-      "team2": "Ecuador",
-      "group1": "a",
-      "group2": "a",
-      "match_id": 1,
-      "sid": 1,
-      "mytickets": [
-          {
-              "id": 1,
-              "price": 3.5,
-              "row": 3,
-              "seat": 7,
-              "level": 5,
-              "sid": 1,
-              "match_id": 1
-          }
-      ]
+  const [ticketsPending, setTicketsPending] = useState(false);
+  const [matchesPending, setmatchesPending] = useState(false);
+  const [matchesWithTickets, setMatchesWithTickets] = useState(null);
+
+  const dispatch = useDispatch();
+  const authToken = useSelector(selectUserAuthToken);
+  const tickets = useSelector(selectTickets)
+  const ticketStatus = useSelector(selectTicketStatus);
+  const ticketMessage = useSelector(selectTicketStatusMessage);
+  const matchStatus = useSelector(selectMatchStatus);
+  const matchMessage = useSelector(selectMatchStatusMessage);
+  const matches = useSelector(selectAllMatches)
+
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem('user');
+    const authToken2 = localStorage.getItem('authToken');
+    if(authToken2) {
+      dispatch(setAuthToken(authToken2))
     }
-  ]
+    if (loggedInUser) {
+        dispatch(setUser(loggedInUser));
+      }
+      else
+          window.location = '/';
+  }, [])
 
-  const mockGetMatchFromTicket = (ticketId) => {
-    return matches.find((match) => match.mytickets.find((ticket) => ticket.id === ticketId))
+  useEffect(() => {
+    if(authToken)
+      dispatch(getTickets({token: authToken}))
+  },[authToken])
+
+  useEffect(() => {
+    if(authToken && tickets.length > 0){
+      dispatch(getMatches())
+      if (ticketStatus === 'fulfilled' && matchStatus === 'fulfilled') {
+        //filter the matches to get the matches that have tickets
+        // setMatchesWithTickets(matches.filter((match) => tickets.find((ticket) => ticket.match_id === match.match_id)))
+        console.log(matches)
+      }
+      // filter the matches to get the matches that have tickets
+      // const matchesWithTickets = matches.filter((match) => tickets.find((ticket) => ticket.match_id === match.match_id))
+    }
+  },[authToken, tickets])
+
+  const handleDelete = (ticketId) => {
+    const result = dispatch(deleteTicket({id:ticketId, token:authToken}))
+    console.log(result)
+    dispatch(getMatches())
+    dispatch(getTickets({token: authToken}))
   }
 
-  // const getMatchFromTicket = (ticketId) => {
-  //   axios.get(`${BASE_URL}/get_match_with_ticket_as_fan/${ticketId}`)
-  //   .then((res) => {
-  //     console.log(res.data)
-  //     return res.data
-  //   })
-  // }
-
-  const match = mockGetMatchFromTicket(1)
+  //get Match from matchesWithTicket using the current ticket id
+  // const match = matchesWithTickets.find((match) => match.match_id === ticket.match_id)
 
   return ( 
     <div className="tickets">
       <h1>Tickets</h1>
       <div className="tickets-list">
         {tickets.map((ticket) => (
-          <Card className='card'>
-            <Card.Body>
-              <Card.Title className='card-title'>{match.team1} vs. {match.team2} </Card.Title>
-              <Card.Subtitle className="text-dark">Price: {ticket.price}</Card.Subtitle>
-              <Card.Text className='card-text'>
-                Row: {ticket.row} Seat: {ticket.seat} Level: {ticket.level}
-              </Card.Text>
-              {/* this button should refund the ticket given the required conditions */}
-              {/* <Button variant="dark">Return</Button> */}
-            </Card.Body>
-          </Card>
-        ))}
+          // get the match that has the same match_id as the ticket
+           ticketStatus === 'fulfilled' && matchStatus === 'fulfilled' && (
+              <Card key={ticket.id} className='card'>
+                <Card.Body>
+                  {/* get Match from matchesWithTicket using the current ticket id */}
+                  <Card.Title className='card-title'>{(matches?.find((match) => match.match_id === ticket.match_id)).team1} vs. {(matches.find((match) => match.match_id === ticket.match_id)).team2} </Card.Title>
+                  <Card.Subtitle className="text-dark">Price: {ticket.price}</Card.Subtitle>
+                  <Card.Text className='card-text'>
+                    Row: {ticket.row} Seat: {ticket.seat} Level: {ticket.level}
+                  </Card.Text>
+                  {/* this button should refund the ticket given the required conditions */}
+                  <button onClick={() => handleDelete(ticket.id)}>Cancel</button>
+                </Card.Body>
+              </Card>
+           )
+          ))
+        }
       </div>
     </div>
    );
