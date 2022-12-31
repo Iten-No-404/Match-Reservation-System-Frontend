@@ -84,7 +84,7 @@ extraReducers: {
   [addStadium.fulfilled]: (state, { payload }) => {
     const s = state; 
     try {
-      console.log(payload);
+      // console.log(payload);
       s.stadium = payload.response;
       s.status = 'fulfilled';
     } catch (e) {

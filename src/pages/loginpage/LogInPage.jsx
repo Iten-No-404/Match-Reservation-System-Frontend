@@ -23,7 +23,7 @@ const LogInPage = () => {
   const text2 = 'New Here? ';
   const text3 = 'Sign up!';
   const user = useSelector(selectUser);
-  console.log(user);
+  // console.log(user);
   const message = useSelector(selectUserStatusMessage);
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');

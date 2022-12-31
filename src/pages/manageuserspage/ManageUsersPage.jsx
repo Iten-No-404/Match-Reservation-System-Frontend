@@ -39,7 +39,7 @@ function ManageUsersPage() {
         }
         setDeletedAUser(false);
     }, [authToken, deletedAUser])
-    console.log(users);
+    // console.log(users);
 
     return (
       <ThemeProvider theme={theme}>

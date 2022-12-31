@@ -295,8 +295,8 @@ const EditAccountPage = () => {
                     label="Birth Date"
                     value={birthdate}
                     onChange={(e) => {
-                    console.log(e);
-                    console.log(e.$y+'-'+e.$M+'-'+e.$D);
+                    // console.log(e);
+                    // console.log(e.$y+'-'+e.$M+'-'+e.$D);
                     // setBirthDate();
                     setBirthDate(e.$y+'-'+(e.$M+1)+'-'+e.$D);
                     }}

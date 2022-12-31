@@ -48,7 +48,7 @@ const AddStadium = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const stadium = { staduim_name: stadium_name, n_seats: seatNum, address: address, shape: shape, location: location };
-        console.log(stadium);
+        // console.log(stadium);
         dispatch(addStadium({query: stadium, token: authToken}));
     }
 

@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { getStadiums, selectStadiums } from "../../states/stadium-slice/stadium-slice";
 import { selectUserAuthToken, setAuthToken, setUser } from '../../states/user-slice/user-slice';
-import { addMatch, selectAllMatches, selectMatchStatus, selectMatchStatusMessage } from '../../states/match-slice/match-slice';
+import { addMatch, editMatch, getMatches, selectAllMatches, selectMatchStatus, selectMatchStatusMessage } from '../../states/match-slice/match-slice';
 
 const theme = createTheme();
 
@@ -43,8 +43,10 @@ function AddMatch() {
     const authToken = useSelector(selectUserAuthToken);
     const stadiums = useSelector(selectStadiums);
     const matches = useSelector(selectAllMatches);
-    const matchNames = matches.map(match => (match.startdate + match.team1 + " vs. "+ match.team2, match.match_id));
-    const stadiumNames = stadiums.map(stadium => stadium.staduim_name);
+    const matchNames = matches?.map(match => [match.startdate + " " + match.team1 + " vs. "+ match.team2, match.match_id]);
+    // const matchKeys = matches?.map(match => match.match_id);
+    const matchDict = Object.assign({}, ...matches?.map((match) => ({[match.match_id]: match})));
+    const stadiumNames = stadiums?.map(stadium => stadium.staduim_name);
 
     const [team1, setTeam1] = useState("");
     const [team2, setTeam2] = useState("");
@@ -59,6 +61,8 @@ function AddMatch() {
     const [mainreferee, setMainReferee] = useState("");
     const [round, setRound] = useState("");
     const [baseprice, setBasePrice] = useState("");
+    const [editedMatchId, setEditedMatchId] = useState(0);
+
 
     const status = useSelector(selectMatchStatus);
     const message = useSelector(selectMatchStatusMessage);
@@ -80,16 +84,24 @@ function AddMatch() {
     useEffect(() => {
       if(authToken)
         dispatch(getStadiums({token: authToken}));
-      
+        dispatch(getMatches());
     }, [authToken])
     
 
     const handleSubmit = (e) => {
       e.preventDefault();
       const match = { team1: team1, team2: team2, startdate: startdate, starttime: starttime, endtime: endtime, staduim_name: stadium_name, lineman1: lineman1, lineman2: lineman2, group1: group1, group2: group2, mainreferee: mainreferee, round: round, baseprice: baseprice };
-      console.log(match);
+      // console.log(match);
       dispatch(addMatch({query: match, token: authToken}));
     }
+
+    const handleEditSubmit = (e) => {
+      e.preventDefault();
+      const match = { team1: team1, team2: team2, startdate: startdate, starttime: starttime, endtime: endtime, staduim_name: stadium_name, lineman1: lineman1, lineman2: lineman2, group1: group1, group2: group2, mainreferee: mainreferee, round: round, baseprice: baseprice };
+      // console.log(match);
+      dispatch(editMatch({query: match, id: editedMatchId, token: authToken}));
+    }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -150,19 +162,34 @@ function AddMatch() {
                   </Typography>
                   </Box>
               )}
-        <form onSubmit={handleSubmit} style={{ alignItems: 'center' }}>
+        <form onSubmit={handleEditSubmit} style={{ alignItems: 'center' }}>
         <FormControl fullWidth sx={{ mb: 1 }}>
-              <InputLabel id="stadium-label" style={{ color: "rgb(43, 2, 69)"}}>Stadium Name</InputLabel>
+              <InputLabel id="stadium-label" style={{ color: "rgb(43, 2, 69)"}}>Existing Match</InputLabel>
               <Select
                   labelId="match-label"
                   id="match-name"
                   label="Match Name"
                   name='match_name'
-                  onChange={(e) => setStadiumName(e.target.value)}
+                  value={editedMatchId}
+                  onChange={(e) => {setEditedMatchId(e.target.value);
+                    setTeam1(matchDict[e.target.value].team1)
+                    setTeam2(matchDict[e.target.value].team2)
+                    setStartDate(matchDict[e.target.value].startdate)
+                    setStartTime(matchDict[e.target.value].starttime)
+                    setEndTime(matchDict[e.target.value].endtime)
+                    setStadiumName(matchDict[e.target.value].stadium_name)
+                    setLineman1(matchDict[e.target.value].lineman1)
+                    setLineman2(matchDict[e.target.value].lineman2)
+                    setGroup1(matchDict[e.target.value].group1)
+                    setGroup2(matchDict[e.target.value].group2)
+                    setMainReferee(matchDict[e.target.value].mainreferee)
+                    setRound(matchDict[e.target.value].round)
+                    setBasePrice(matchDict[e.target.value].baseprice)
+                  }}
                   style={{ backgroundColor: '#FFFFFF'}}
               >
                   { matchNames.map((matchName) => {
-                  return <MenuItem value={matchName}>{matchName}</MenuItem>
+                  return <MenuItem key={matchName[1]} value={matchName[1]}>{matchName[0]}</MenuItem>
                   })}
               </Select>
               </FormControl>
@@ -234,7 +261,7 @@ function AddMatch() {
           <input type='text' name='mainreferee' onChange={(e) => setMainReferee(e.target.value)} value={mainreferee} />
           <label>Base Price</label>
           <input type='number' name='baseprice' onChange={(e) => setBasePrice(e.target.value)} value={baseprice} />
-          <button type='submit' >Add Match</button>
+          <button type='submit' >Edit Match</button>
         </form>
       </div>
       </Box>

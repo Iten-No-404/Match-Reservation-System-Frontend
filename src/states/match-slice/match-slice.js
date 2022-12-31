@@ -33,7 +33,8 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            // console.log(response.data);
+            return response.data;
         }catch (err){
             console.log(err);
             return err.response.data;
@@ -68,7 +69,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
             console.log(err);
             return err.response.data;
@@ -86,7 +87,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
             console.log(err);
             return err.response.data;
@@ -104,7 +105,7 @@ const headers = {
                   ...headers
                 }
               });
-            return response.data.response;
+            return response.data;
         }catch (err){
             console.log(err);
             return err.response.data;
@@ -145,7 +146,7 @@ const headers = {
       },
       [addMatch.fulfilled]: (state, { payload }) => {
         const s = state; 
-        console.log(payload);
+        // console.log(payload);
         try {
           if(payload.meta.status === "200"){
             s.match = payload.response;
@@ -171,12 +172,13 @@ const headers = {
       },
       [editMatch.fulfilled]: (state, { payload }) => {
         const s = state; 
+        // console.log(payload);
         try {
-          s.match = payload;
+          s.match = payload.response;
           s.status = 'fulfilled';
         } catch (e) {
           s.status = 'failed';
-          s.statusMessage = payload.status;
+          s.statusMessage = payload.meta.msg;
          }
       },
       [editMatch.rejected]: (state) => {
@@ -193,7 +195,7 @@ const headers = {
         const s = state; 
         try {
           s.allMatches = payload.matches;
-          s.status = 'fulfilled';
+          // s.status = 'fulfilled';
         } catch (e) {
           s.status = 'failed';
           s.statusMessage = payload.status;

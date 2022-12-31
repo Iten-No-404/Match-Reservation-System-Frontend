@@ -30,7 +30,7 @@ function HomePage() {
             dispatch(setUser(loggedInUser));
         }
     }, [])
-    console.log(matches);
+    // console.log(matches);
 
     return (
       <ThemeProvider theme={theme}>

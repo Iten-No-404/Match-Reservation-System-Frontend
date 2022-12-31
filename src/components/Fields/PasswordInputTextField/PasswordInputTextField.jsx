@@ -17,10 +17,6 @@ const PasswordInputTextField = ({
   if (marginOff) {
     marginBottomValue = -0.25;
   }
-  if (showDifficulty) {
-    // eslint-disable-next-line no-console
-    console.log('Testing Difficulty');
-  }
   return (
     <Box fullWidth sx={{ mb: marginBottomValue }}>
       <TextField

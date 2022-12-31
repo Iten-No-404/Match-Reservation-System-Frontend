@@ -290,7 +290,7 @@ const headers = {
             }
           } catch (e) {
             console.log("WRONG !!!!!!!!!!");
-            console.log(payload);
+            // console.log(payload);
             s.status = 'failed';
             s.statusMessage = payload.meta.msg;
           }
@@ -308,7 +308,7 @@ const headers = {
         [signUpThunk.fulfilled]: (state, { payload }) => {
           const s = state;
           try {
-            console.log(payload);
+            // console.log(payload);
             if(payload.meta.status === "200"){
               s.user = payload.response; 
               s.authToken = payload.response.access_token;
@@ -388,7 +388,7 @@ const headers = {
           console.log('Approve User in Progress');
         },
         [approveUserThunk.fulfilled]: (state, { payload }) => {
-          console.log(payload);
+          // console.log(payload);
           // state.users = payload.response.users;
           // state.user = payload;
         },
@@ -399,7 +399,7 @@ const headers = {
           console.log('Delete User in Progress');
         },
         [deleteUserThunk.fulfilled]: (state, { payload }) => {
-          console.log(payload);
+          // console.log(payload);
           // state.user = payload;
         },
         [deleteUserThunk.rejected]: () => {
@@ -409,7 +409,7 @@ const headers = {
           console.log('Get Users in Progress');
         },
         [getUsersThunk.fulfilled]: (state, { payload }) => {
-          console.log(payload);
+          // console.log(payload);
           state.users = payload.response.users;
         },
         [getUsersThunk.rejected]: () => {
