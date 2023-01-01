@@ -234,7 +234,7 @@ const headers = {
       [getMatchWithTickets.fulfilled]: (state, { payload }) => {
         const s = state; 
         try {
-          s.match = payload;
+          s.match = payload.response;
           s.status = 'fulfilled';
         } catch (e) {
           s.status = 'failed';
@@ -254,7 +254,7 @@ const headers = {
       [getMatchWithTicketsForFan.fulfilled]: (state, { payload }) => {
         const s = state; 
         try {
-          s.match = payload;
+          s.match = payload.response;
           s.status = 'fulfilled';
         } catch (e) {
           s.status = 'failed';
