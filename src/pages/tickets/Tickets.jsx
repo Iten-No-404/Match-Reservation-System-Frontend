@@ -43,7 +43,7 @@ function Tickets() {
   const matchStatus = useSelector(selectMatchStatus);
   const matchMessage = useSelector(selectMatchStatusMessage);
   const matches = useSelector(selectAllMatches)
-
+  console.log(tickets);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('user');
@@ -59,6 +59,7 @@ function Tickets() {
   }, [])
 
   useEffect(() => {
+    console.log("Hi!!!!");
     if(authToken)
       dispatch(getTickets({token: authToken}))
   },[authToken])
@@ -66,11 +67,11 @@ function Tickets() {
   useEffect(() => {
     if(authToken && tickets.length > 0){
       dispatch(getMatches())
-      if (ticketStatus === 'fulfilled' && matchStatus === 'fulfilled') {
+      // if (ticketStatus === 'fulfilled' && matchStatus === 'fulfilled') {
         //filter the matches to get the matches that have tickets
         // setMatchesWithTickets(matches.filter((match) => tickets.find((ticket) => ticket.match_id === match.match_id)))
         console.log(matches)
-      }
+      // }
       // filter the matches to get the matches that have tickets
       // const matchesWithTickets = matches.filter((match) => tickets.find((ticket) => ticket.match_id === match.match_id))
     }
@@ -90,13 +91,12 @@ function Tickets() {
     <div className="tickets">
       <h1>Tickets</h1>
       <div className="tickets-list">
-        {tickets.map((ticket) => (
-          // get the match that has the same match_id as the ticket
-           ticketStatus === 'fulfilled' && matchStatus === 'fulfilled' && (
+        {tickets?.map((ticket) => {
+          return (
               <Card key={ticket.id} className='card'>
                 <Card.Body>
                   {/* get Match from matchesWithTicket using the current ticket id */}
-                  <Card.Title className='card-title'>{(matches?.find((match) => match.match_id === ticket.match_id)).team1} vs. {(matches.find((match) => match.match_id === ticket.match_id)).team2} </Card.Title>
+                  <Card.Title className='card-title'>{(matches?.find((match) => match?.match_id === ticket?.match_id)).team1} vs. {(matches?.find((match) => match?.match_id === ticket?.match_id)).team2} </Card.Title>
                   <Card.Subtitle className="text-dark">Price: {ticket.price}</Card.Subtitle>
                   <Card.Text className='card-text'>
                     Row: {ticket.row} Seat: {ticket.seat} Level: {ticket.level}
@@ -104,9 +104,10 @@ function Tickets() {
                   {/* this button should refund the ticket given the required conditions */}
                   <button onClick={() => handleDelete(ticket.id)}>Cancel</button>
                 </Card.Body>
-              </Card>
-           )
-          ))
+              </Card>   
+        )
+           }
+          )
         }
       </div>
     </div>

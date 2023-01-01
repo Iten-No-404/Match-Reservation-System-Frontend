@@ -84,6 +84,7 @@ extraReducers: {
   },
   [addTickets.fulfilled]: (state, { payload }) => {
     const s = state; 
+    console.log("Add Tickets Successful!!");
     try {
       // s.ticket = payload.response;
       s.status = 'fulfilled';
@@ -104,6 +105,8 @@ extraReducers: {
   },
   [deleteTicket.fulfilled]: (state, { payload }) => {
     const s = state; 
+    console.log("Successful!!");
+    console.log(payload);
     try {
       // s.ticket = payload.response;
       s.status = 'fulfilled';
